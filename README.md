@@ -22,7 +22,7 @@ For each scan *k* and each class *c*:
 
 1. Evaluate each particle's likelihood with the complex amplitude **marginalised analytically**:
    log ℓ = −log γ + (σ_q² / σ_n²) |aᴴ z|² / γ, where γ = ‖a‖² σ_q² + σ_n².
-2. Normalise the weights. The class evidence is the log-sum-exp of the particle likelihoods.
+2. Normalise the weights and compute a per-class evidence term (see the note below on how it is computed).
 3. Update the class posterior P(c | z₁:ₖ) recursively.
 4. Combine the per-class weighted means into the state estimate, weighted by the class posterior.
 5. Resample (`resample.m`, multinomial) and propagate through the constant-velocity model.
@@ -44,5 +44,8 @@ Requires MATLAB R2020a+ (for `exportgraphics`).
 - In `TBD_v4.m` the propagation step computes `noise = chol(W)' * randn(2, N)`, where `W` already includes
   σ_w², and then adds `sigmaw * noise`. That scales the process noise by σ_w twice. Using `+ noise` matches
   the stated motion model.
+- The class evidence is computed as `maxloglik + log(sum(w))` *after* `w` has been normalised to sum to one,
+  so it reduces to the maximum particle log-likelihood. A particle estimate of the evidence would use the
+  unnormalised weights, e.g. `maxloglik + log(mean(exp(loglik - maxloglik)))` computed before normalising.
 
 Course project (SSDP), MSc Electrical Engineering, TU Delft.
