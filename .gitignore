@@ -1,0 +1,13 @@
+# MATLAB
+*.asv
+*.m~
+slprj/
+*.mex*
+octave-workspace
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Figures written by TBD_v4.m
+Results/
